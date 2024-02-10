@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <style>
+      #sDiv {
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+<script>
+  // type of tag, {attibutes}, children
+  //const ele = React.createElement(div,{ style:{}, value: "20", id: "subDiv" },[children] )
+
+  let root = ReactDOM.createRoot(document.getElementById("root"));
+
+  const myElement = React.createElement(
+    "div",
+    {
+      style: {
+        border: "1px solid red",
+        display: "grid",
+        gridTemplateColumns: "auto auto",
+        gap: "12px",
+        padding: "12px",
+      },
+    },
+    [
+      //Ctrl + d
+      React.createElement("div", { id: "sDiv", key: "1" }, ["1"]),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "red" }, key: "2" },
+        "2"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "green" }, key: "3" },
+        "3"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "yellow" }, key: "4" },
+        "4"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "teal" }, key: "5" },
+        ["1"]
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "red" }, key: "6" },
+        "2"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "green" }, key: "7" },
+        "3"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "yellow" }, key: "8" },
+        "4"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "teal" }, key: "9" },
+        ["1"]
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "red" }, key: "10" },
+        "2"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "green" }, key: "11" },
+        "3"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "yellow" }, key: "12" },
+        "4"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "teal" }, key: "13" },
+        ["1"]
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "red" }, key: "14" },
+        "2"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "green" }, key: "15" },
+        "3"
+      ),
+      React.createElement(
+        "div",
+        { style: { backgroundColor: "yellow" }, key: "16" },
+        "4"
+      ),
+    ]
+  );
+
+  root.render(myElement);
+</script>
