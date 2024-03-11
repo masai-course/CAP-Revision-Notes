@@ -1,0 +1,26 @@
+.form {
+   border: 1px solid rgb(227, 227, 227);
+   background-color: whitesmoke;
+   width: fit-content;
+   padding: 0px 16px;
+   padding-bottom: 16px;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.heading {
+   text-align: center;
+}
+
+.submitBtn {
+   display: block;
+   margin: auto;
+   margin-top: 16px;
+}
+
+.table td {
+   padding: 4px 0px;
+}
+
+td:nth-child(2) {
+   padding-left: 8px;
+}
