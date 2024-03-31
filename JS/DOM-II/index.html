@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODOS- DOM-II</title>
+    <style>
+      #input {
+        width: 60%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+      }
+      #container {
+        width: 98%;
+        margin: auto;
+        border: 1px solid black;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 5px;
+        margin-top: 10px;
+      }
+
+      #container > div {
+        /* border: 1px solid green; */
+        border-radius: 10px;
+        padding: 5px;
+      }
+      .blink {
+        color: blue;
+        animation: blinker 1s linear infinite;
+      }
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+      .complete {
+        border: 1px dotted green;
+      }
+      .incomplete {
+        border: 1px dotted red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="input">
+      <h5>Add Todos Here</h5>
+      <input id="todoinput" type="text" placeholder="Enter Name of the todo" />
+      <label for="">Please Add Deadline</label>
+      <input type="datetime-local" id="datetime" />
+      <button id="addTodo">Add Todo</button>
+
+      <button id="pendingTodo">Pending Todos</button>
+      <button id="allTodo">All Todos</button>
+    </div>
+
+    <div id="container">
+      <!-- Todos will be appended here  -->
+    </div>
+    <!-- <h3 class="blink">Hello</h3> -->
+  </body>
+  <script>
+    let container = document.getElementById("container");
+    // let dataArr = [
+    //   { name: "Learn DOM-1", status: false },
+    //   { name: "Learn DOM-2", status: false },
+    //   { name: "Learn React", status: false },
+    // ];
+    let dataArr = [];
+    let todoinput = document.getElementById("todoinput");
+    let datetime = document.getElementById("datetime");
+    let addTodo = document.getElementById("addTodo");
+    addTodo.addEventListener("click", function () {
+      let selectedDate = new Date(datetime.value);
+      let obj = { name: todoinput.value, status: false, date: selectedDate };
+      dataArr.push(obj);
+      displayTodo(dataArr);
+      //console.log(dataArr);
+    });
+
+    function displayTodo(arr) {
+      container.innerHTML = null;
+      arr.map((el, i) => {
+        let card = document.createElement("div");
+        card.setAttribute("class", "incomplete");
+
+        let name = document.createElement("h3");
+        name.textContent = `Name: ${el.name}`;
+
+        let status = document.createElement("h5");
+        status.textContent = `Status: ${el.status}`;
+
+        let formattedDate = el.date.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        let deadLine = document.createElement("p");
+        deadLine.textContent = `Dead Line: ${formattedDate}`;
+        let currentDate = new Date();
+        // console.log(currentDate,"cd")
+        let check = currentDate > el.date;
+        let deadLineStatus = document.createElement("p");
+        deadLineStatus.textContent = `Dead Line Status: ${
+          check ? "Passed" : "Nearing"
+        }`;
+        if (check && el.status == false) {
+          card.classList.add("class", "blink");
+        }
+        let changeButton = document.createElement("button");
+        changeButton.textContent = "Change Status";
+        changeButton.addEventListener("click", function () {
+          changeStatus(el, i);
+          //el.status? card.setAttribute("class","complete"):card.setAttribute("class","incomplete")
+          console.log(card);
+          displayTodo(dataArr);
+        });
+        el.status
+          ? card.classList.add("class", "complete")
+          : card.classList.add("class", "incomplete");
+
+        let deleteTodo = document.createElement("button");
+        deleteTodo.textContent = "Delete";
+        deleteTodo.addEventListener("click", function () {
+          deleteTodos(el, i);
+        });
+
+        card.append(
+          name,
+          status,
+          deadLine,
+          deadLineStatus,
+          changeButton,
+          deleteTodo
+        );
+        container.append(card);
+      });
+    }
+
+    function changeStatus(el, i) {
+      if (el.status == true) {
+        el.status = false;
+      } else {
+        el.status = true;
+      }
+    }
+
+    function deleteTodos(el, i) {
+      let updatedArr = dataArr.filter((e, index) => {
+        if (i != index) {
+          return el;
+        }
+      });
+
+      dataArr = [...updatedArr];
+      displayTodo(dataArr);
+    }
+
+    let pendingTodo = document
+      .getElementById("pendingTodo")
+      .addEventListener("click", function () {
+        let updatedArr = dataArr.filter((e) => {
+          if (e.status == false) {
+            return e;
+          }
+        });
+        displayTodo(updatedArr);
+      });
+
+    document.getElementById("allTodo").addEventListener("click", function () {
+      displayTodo(dataArr);
+    });
+  </script>
+</html>
