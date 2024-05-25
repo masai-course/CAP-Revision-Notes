@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>User Details</title>
+      <style>
+         thead {
+            background-color: rgb(110, 183, 110);
+         }
+         table {
+            border-collapse: collapse;
+         }
+         td {
+            border: 1px solid black;
+            padding: 3px;
+         }
+      </style>
+   </head>
+   <body>
+      <table>
+         <thead>
+            <tr>
+               <td>ID</td>
+               <td>Name</td>
+               <td>Username</td>
+               <td>Email</td>
+               <td>Address</td>
+               <td>Phone</td>
+               <td>Website</td>
+               <td>Company name</td>
+            </tr>
+         </thead>
+         <tbody id="tbody">
+            <!-- I will fetch and append it here -->
+            <!-- API data will get append here -->
+         </tbody>
+      </table>
+   </body>
+</html>
+<script>
+   const tbody = document.getElementById("tbody");
+
+   // this function will append rows inside the table
+   const appendRow = (el) => {
+      const tr = document.createElement("tr");
+      const {
+         id,
+         name,
+         username,
+         email,
+         address,
+         phone,
+         website,
+         company: { name: companyName },
+      } = el;
+      const addressLine = `${address.street}, ${address.suite}, ${address.city}`;
+
+      const idTd = document.createElement("td");
+      const nameTd = document.createElement("td");
+      const usernameTd = document.createElement("td");
+      const emailTd = document.createElement("td");
+      const addressTd = document.createElement("td");
+      const phoneTd = document.createElement("td");
+      const websiteTd = document.createElement("td");
+      const companyNameTd = document.createElement("td");
+
+      idTd.textContent = id;
+      nameTd.textContent = name;
+      usernameTd.textContent = username;
+      emailTd.textContent = email;
+      addressTd.textContent = addressLine;
+      phoneTd.textContent = phone;
+
+      const anchorTagForWebsite = document.createElement("a");
+      anchorTagForWebsite.textContent = website;
+      anchorTagForWebsite.setAttribute("href", `https://www.${website}`);
+      websiteTd.append(anchorTagForWebsite);
+      companyNameTd.textContent = companyName;
+
+      tr.append(
+         idTd,
+         nameTd,
+         usernameTd,
+         emailTd,
+         addressTd,
+         phoneTd,
+         websiteTd,
+         companyNameTd
+      );
+
+      tbody.append(tr);
+   };
+
+   // async await
+   // we have to use an async function
+   // fetchData function will fetch the data and will invoke appendRow function that will further helps in appending the data inside the table
+   const fetchData = async () => {
+      // call my API
+      try {
+         const res = await fetch("https://jsonplaceholder.typicode.com/users");
+         const data = await res.json();
+         data.sort((a, b) => a.name.localeCompare(b.name));
+         console.log(data);
+         data.forEach((el) => appendRow(el));
+      } catch (err) {
+         console.log("Error while fetching the data", err);
+      }
+   };
+
+   fetchData();
+
+   //    fetch("https://jsonplaceholder.typicode.com/users")
+   //       .then((res) => res.json())
+   //       .then((data) => {
+   //          console.log(data);
+   //       })
+   //       .catch((err) => console.log("Error happend while fetching the API", err));
+</script>
